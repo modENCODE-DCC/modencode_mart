@@ -4,8 +4,9 @@ package Loader::TransfacTranscriptionalFactorMain_Loader;
 
 use strict;
 use warnings;
+use Carp qw/croak/;
 use Class::Std;
-use base 'Loader::Loader';
+use base 'Loader';
 
 my %config         :ATTR( ;name<config>        :default<undef>);
 my %species        :ATTR( :name<species>       :default<undef>);
