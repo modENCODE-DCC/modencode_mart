@@ -3,10 +3,11 @@ package Loader;
 use strict;
 use warnings;
 use Carp qw/croak/;
+use Data::Dumper;
 use Class::Std;
 use Bio::DB::SeqFeature::Store;
 
-my %config         :ATTR( ;name<config>        :default<undef>);
+my %config         :ATTR( :name<config>        :default<undef>);
 my %species        :ATTR( :name<species>       :default<undef>);
 
 sub BUILD {
@@ -28,7 +29,7 @@ sub connect {
     }
     if ($species{ident $self} eq 'Drosophila melanogaster') {
 	$organism = 'fly';
-    }    
+    }
     my $dbtype = $config{ident $self}->{$organism}->{type};
     my $dbname = $config{ident $self}->{$organism}->{name};
     my $host = $config{ident $self}->{$organism}->{host};
@@ -36,11 +37,11 @@ sub connect {
     my $user = $config{ident $self}->{$organism}->{user};
     my $pass = $config{ident $self}->{$organism}->{password};
     my $adaptor = "DBI::$dbtype";
-    my $dsn = "dbi:$dbtype:$dbname";
-    my $db = Bio::DB::SeqFeature::Store->new( -adaptor => $adaptor,
-					      -dsn  => $dsn,
-					      -user => $user,
-					      -pass => $pass);
+    my $dsn = "dbi:$dbtype:dbname=$dbname;host=$host;port=$port";
+    my $db = Bio::DB::SeqFeature::Store->new(-adaptor => $adaptor,
+					     -dsn  => $dsn,
+					     -user => $user,
+					     -pass => $pass);
     return $db;
 }
 
