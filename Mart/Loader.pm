@@ -21,7 +21,19 @@ sub BUILD {
     return $self;
 }
 
-sub connect {
+sub connectinfo {
+    my ($self, $name) = @_;
+    my $dbtype = $config{ident $self}->{$name}->{type};
+    my $dbname = $config{ident $self}->{$name}->{name};
+    my $host = $config{ident $self}->{$name}->{host};
+    my $port = $config{ident $self}->{$name}->{port};
+    my $user = $config{ident $self}->{$name}->{user};
+    my $pass = $config{ident $self}->{$name}->{password};
+    my $dsn = "dbi:$dbtype:dbname=$dbname;host=$host;port=$port";
+    return ($dsn, $user, $pass);
+}
+
+sub connect_gff {
     my $self = shift;
     my $organism;
     if ($species{ident $self} eq 'Caenorhabditis elegans') {
@@ -30,16 +42,10 @@ sub connect {
     if ($species{ident $self} eq 'Drosophila melanogaster') {
 	$organism = 'fly';
     }
-    my $dbtype = $config{ident $self}->{$organism}->{type};
-    my $dbname = $config{ident $self}->{$organism}->{name};
-    my $host = $config{ident $self}->{$organism}->{host};
-    my $port = $config{ident $self}->{$organism}->{port};
-    my $user = $config{ident $self}->{$organism}->{user};
-    my $pass = $config{ident $self}->{$organism}->{password};
-    my $adaptor = "DBI::$dbtype";
-    my $dsn = "dbi:$dbtype:dbname=$dbname;host=$host;port=$port";
-    my $db = Bio::DB::SeqFeature::Store->new(-adaptor => $adaptor,
-					     -dsn  => $dsn,
+
+    my ($dsn, $user, $pass) = $self->connectinfo($organism);
+
+    my $db = Bio::DB::SeqFeature::Store->new(-dsn  => $dsn,
 					     -user => $user,
 					     -pass => $pass);
     return $db;
