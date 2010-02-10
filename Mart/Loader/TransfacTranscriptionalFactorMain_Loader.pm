@@ -9,7 +9,7 @@ use Data::Dumper;
 use Class::Std;
 use base 'Loader';
 
-my %config         :ATTR( ;name<config>        :default<undef>);
+my %config         :ATTR( :name<config>        :default<undef>);
 my %species        :ATTR( :name<species>       :default<undef>);
 my %id             :ATTR( :name<id>            :default<undef>);
 my %pname          :ATTR( :name<pname>         :default<undef>);
