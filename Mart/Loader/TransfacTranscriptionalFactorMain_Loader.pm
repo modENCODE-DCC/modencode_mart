@@ -72,7 +72,8 @@ sub load {
 		$self->get_chr_end,
 		$self->get_chr_strand
 	);
-    my $tf_rs = $schema->resultset('TransfacTranscriptionalFactorMain');
+    my $p = __PACKAGE__; $p =~ s/^Loader:://; $p =~ s/_Loader$//;
+    my $tf_rs = $schema->resultset($p);
     my ($tf) = $tf_rs->populate([\@columns,
 				 \@data
 				]);
