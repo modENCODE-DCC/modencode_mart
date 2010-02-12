@@ -14,8 +14,8 @@ sub BUILD {
     my ($self, $ident, $args) = @_;
     for my $p (qw[config species]) {
 	my $v = $args->{$p};
-	my $f = "set_" . $p if defined $v;
-	$self->$f($v);
+	my $f = "set_" . $p;
+	$self->$f($v) if defined $v;
     }
     return $self;
 }
