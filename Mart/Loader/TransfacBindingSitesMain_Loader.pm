@@ -10,6 +10,8 @@ use Class::Std;
 use base 'Loader';
 use Schema;
 use GFF3::GFF3Rec;
+use Loader::TransfacBindingSitesGenesDm_Loader;
+
 
 my %config    :ATTR(:name<config>     :default<undef>);
 my %species   :ATTR( :name<species>       :default<undef>);
@@ -68,9 +70,15 @@ sub load {
 	    );
 	$i++;
 	print join(' ', @data), "\n";
-	$bs_rs->populate([\@columns,
-			  \@data
-			 ]);
+	my ($bs) = $bs_rs->populate([\@columns,
+				     \@data
+				    ]);
+	#load relationship
+	my $bsgl = new Loader::TransfacBindingSitesGenesDm_Loader({config => $self->get_config(),
+								   species => $self->get_species(),
+								   bs_id_key => $bs->bs_id_key
+								  });
+	$bsgl->load($db, $rec);
     }
     close $gffh;
 }

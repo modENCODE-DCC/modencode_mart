@@ -18,6 +18,7 @@ use Getopt::Long;
 use ModENCODE::Parser::LWChado;
 use GEO::LWReporter;
 use Loader::TransfacTranscriptionalFactorMain_Loader;
+use Loader::TransfacBindingSitesMain_Loader;
 
 print "initializing...\n";
 my ($unique_id, $config, $no_insert, $no_create, $force);
@@ -49,6 +50,10 @@ $reporter->set_all();
 my $species = $reporter->get_organism();
 my $pname = $reporter->get_tgt_gene();
 print $pname;
+my $gff = 'Snyder_PHA4_GFP_emb_combined_peaks.GFF3';
+
+
+
 my $tfl = new Loader::TransfacTranscriptionalFactorMain_Loader({
     config => \%ini,
     species => $species,
@@ -68,8 +73,12 @@ for my $col (qw[tf_id_key
     print $tf->$col, "\n";
 }
 ###cool till this 
-
-
+my $bsl = new Loader::TransfacBindingSitesMain_Loader({
+    config => \%ini,
+    species => $species,
+    tf_id_key => $tf->tf_id_key
+});
+$bsl->load($gff);
 
 sub load_experiment {
     my ($ini, $id) = @_;
