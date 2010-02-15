@@ -49,12 +49,15 @@ $reporter->set_all();
 
 my $species = $reporter->get_organism();
 my $pname = $reporter->get_tgt_gene();
+my $devstage = $reporter->get_devstage();
 print $pname;
+print $devstage;
 my $gff = 'Snyder_PHA4_GFP_emb_combined_peaks.GFF3';
 
 
 
 my $tfl = new Loader::TransfacTranscriptionalFactorMain_Loader({
+    dcc_id => $unique_id,
     config => \%ini,
     species => $species,
     pname => $pname
@@ -62,6 +65,7 @@ my $tfl = new Loader::TransfacTranscriptionalFactorMain_Loader({
 $tfl->info;
 my $tf = $tfl->load; #a tf table dbix::class 
 for my $col (qw[tf_id_key
+                dcc_id
                 species 
                 gene_id 
                 public_name
@@ -72,13 +76,18 @@ for my $col (qw[tf_id_key
                 ]) {
     print $tf->$col, "\n";
 }
-###cool till this 
-my $bsl = new Loader::TransfacBindingSitesMain_Loader({
-    config => \%ini,
-    species => $species,
-    tf_id_key => $tf->tf_id_key
-});
-$bsl->load($gff);
+
+
+
+##################### cool 
+#my $bsl = new Loader::TransfacBindingSitesMain_Loader({
+#    config => \%ini,
+#    species => $species,
+#    tf_id_key => $tf->tf_id_key
+#});
+#$bsl->load($gff);
+
+###cool till this, loaded tf, bs, bs_gene 3 table!!!
 
 sub load_experiment {
     my ($ini, $id) = @_;
