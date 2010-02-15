@@ -26,6 +26,7 @@ my %devstage               :ATTR( :get<devstage>               :default<undef>);
 my %antibody               :ATTR( :get<antibody>               :default<undef>);
 my %factors                :ATTR( :get<factors>                :default<undef>);
 my %tgt_gene               :ATTR( :get<tgt_gene>               :default<undef>);
+my %sex                    :ATTR( :get<sex>                    :default<undef>);
 
 sub BUILD {
     my ($self, $ident, $args) = @_;
@@ -40,7 +41,7 @@ sub BUILD {
 
 sub set_all {
     my $self = shift;
-    for my $parameter (qw[normalized_slots denorm_slots num_of_rows ap_slots project lab contributors factors organism strain cellline devstage tgt_gene antibody]) {
+    for my $parameter (qw[normalized_slots denorm_slots num_of_rows ap_slots project lab contributors factors organism strain cellline devstage tgt_gene antibody sex]) {
         my $set_func = "set_" . $parameter;
         print "try to find $parameter ...";
         $self->$set_func();
@@ -469,6 +470,39 @@ sub get_antibody_row { #keep it as a datum object
     print "antibody not found.";
     return undef;
 }
+
+sub set_sex {
+    my $self = shift;
+    #for my $row (@{$groups{ident $self}->{0}->{0}}) {
+    for my $row ((0..$num_of_rows{ident $self}-1)) {
+	my $sex = $self->get_sex_row($row);
+	print "$sex\n" and $sex{ident $self} = $sex if defined($sex);
+    }
+}
+
+sub get_sex_row {
+    my ($self, $row) = @_;
+    my %sex = ('M' => 'Male', 
+	       'F' => 'Female', 
+	       'U' => 'Unknown', 
+	       'H' => 'Hermaphrodite', 
+	       'M+H' => 'mixed Male and Hermaphrodite population',
+	       'F+H' => 'mixed Female and Hermaphrodite population');
+    #for (my $i=0; $i<=$last_extraction_slot{ident $self}; $i++) {
+    for (my $i=0; $i<scalar @{$denorm_slots{ident $self}}; $i++) {
+	my $ap = $denorm_slots{ident $self}->[$i]->[$row];
+	for my $datum (@{$ap->get_input_data()}) {
+	    for my $attr (@{$datum->get_attributes()}) {
+		my ($aname, $aheading, $avalue) = ($attr->get_name(), $attr->get_heading(), $attr->get_value());
+		if (lc($aheading) =~ /^\s*sex\s*$/) {
+		    return $sex{uri_unescape($avalue)};
+		}
+	    }
+	}
+    }
+    return undef;
+}
+
 
 sub get_value_by_info {
     my ($self, $row, $field, $fieldtext) = @_;

@@ -64,6 +64,7 @@ sub load {
                      tf_chromosome_start
                      tf_chromosome_end
                      tf_chromosome_strand
+                     dcc_id
                      ];
     my @data = ($self->get_species,
 		$self->get_id,
@@ -71,7 +72,8 @@ sub load {
 		$self->get_chr_name,
 		$self->get_chr_st,
 		$self->get_chr_end,
-		$self->get_chr_strand
+		$self->get_chr_strand,
+		$self->get_dcc_id,
 	);
     my $p = __PACKAGE__; $p =~ s/^Loader:://; $p =~ s/_Loader$//;
     my $tf_rs = $schema->resultset($p);
