@@ -40,6 +40,7 @@ sub load {
                     ];
 
     my $cutoff = $self->get_config()->{'mart'}{'distance_cutoff'};
+    print "distance cutoff: $cutoff\n";
     my ($chr, $bs_st, $bs_end) = ($rec->get_seqid(),
 				  $rec->get_start(),
 				  $rec->get_end()
@@ -47,17 +48,23 @@ sub load {
     my $bs_pt = ($bs_st + $bs_end) / 2; #integer!
     my $rg_min = $bs_pt - $cutoff > 0 ? $bs_pt - $cutoff : 0;
     my $rg_max = $bs_pt + $cutoff;
+    print "region: center $bs_pt, min $rg_min, max $rg_max\n";
     #more location, feature type control could go into here
     my $it = $db->segment($chr, $rg_min, $rg_max)->get_seq_stream(-type => 'gene');
     while (my $ft = $it->next_seq) {
-	my $dst = abs(($ft->start + $ft->end) / 2 - $bs_pt);
-	my @data = ($self->get_bs_id_key,
-		    $ft->load_id,
-		    $dst
-	    );
-	$bsg_rs->populate([\@columns,
-			   \@data
-			  ]);
+	print "Warning!!! a gene in gff3 db contains no id.\n", Dumper($ft) unless defined($ft->id);
+	print "Warning!!! a gene in gff3 db contains no load_id.\n", Dumper($ft) unless defined($ft->load_id);
+	if ( defined($ft->id) ) {
+	    my $dst = abs(($ft->start + $ft->end) / 2 - $bs_pt);
+	    print join(" ", ('Gene', $ft->id, $ft->load_id, 'distance', $dst, "\n"));
+	    my @data = ($self->get_bs_id_key,
+			$ft->load_id,
+			$dst
+		);
+	    $bsg_rs->populate([\@columns,
+			       \@data
+			      ]);
+	}
     }	    
 } 
 
