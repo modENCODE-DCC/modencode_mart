@@ -112,3 +112,12 @@ CREATE TABLE transfac__tissue__dm (
        PRIMARY KEY (tf_tissue_id),                                       
        FOREIGN KEY (tf_id_key) REFERENCES transfac__transcriptional_factor__main (tf_id_key) ON DELETE CASCADE
 );
+
+CREATE TABLE transfac__experiment_dm (
+       tf_experiment_id  int(20) unsigned NOT NULL AUTO_INCREMENT,
+       dcc_id        int(5) unsigned NOT NULL,
+       tf_id_key     int(5) unsigned NOT NULL,
+       title         varchar(255),
+       PRIMARY KEY (tf_experiment_id),
+       FOREIGN KEY (tf_id_key) REFERENCES transfac__transcriptional_factor__main (tf_id_key) ON DELETE CASCADE  
+);
