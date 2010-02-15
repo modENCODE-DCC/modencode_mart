@@ -65,8 +65,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("tf_tissue_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-02 14:00:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9QmO9EZqZKeiKfadcW8zuA
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-15 16:12:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B+LmuxXPJ+pyuNnGekr6DA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -74,8 +74,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("tf_strain_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-02 14:00:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sq0B6OOXIuXiih3dPdtLJg
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-15 16:12:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tu3EQzMiN7aPSJiseh4mZQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

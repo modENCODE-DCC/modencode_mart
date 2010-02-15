@@ -58,8 +58,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("tf_devstage_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-02 14:00:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4lr6H/8k3GnnpyA70VXu3g
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-15 16:12:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JC4PXUduDd6e0ZaqxWyynA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -10,6 +10,8 @@ __PACKAGE__->table("transfac__transcriptional_factor__main");
 __PACKAGE__->add_columns(
   "tf_id_key",
   { data_type => "INT", default_value => undef, is_nullable => 0, size => 5 },
+  "dcc_id",
+  { data_type => "INT", default_value => undef, is_nullable => 0, size => 5 },
   "species",
   {
     data_type => "VARCHAR",
@@ -53,10 +55,11 @@ __PACKAGE__->add_columns(
   },
 );
 __PACKAGE__->set_primary_key("tf_id_key");
+__PACKAGE__->add_unique_constraint("dcc_id", ["dcc_id"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-02 14:00:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xiRxITNcXi8o/OvhdjBCiA
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-15 16:12:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:kSpbrh8CV8omhfyoVQfnsw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
