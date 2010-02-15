@@ -1,5 +1,6 @@
 CREATE TABLE transfac__transcriptional_factor__main (
        tf_id_key	int(5) unsigned NOT NULL AUTO_INCREMENT,
+       dcc_id           int(5) unsigned NOT NULL,
        species		varchar(64) NOT NULL,
        gene_id		varchar(20) NOT NULL,
        public_name	varchar(20) NOT NULL,
