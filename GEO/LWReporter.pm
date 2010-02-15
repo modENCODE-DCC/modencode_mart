@@ -53,7 +53,7 @@ sub set_organism {
     my $protocol = $denorm_slots{ident $self}->[0]->[0]->get_protocol();
     for my $attr (@{$protocol->get_attributes()}) {
         #print $attr->get_value() and $organism{ident $self} = $attr->get_value() if $attr->get_heading() eq 'species';
-	print $attr->get_value() and $organism{ident $self} = $attr->get_value() if $attr->get_type()->name() eq 'multi-cellular organism';
+	print $attr->get_value() and $organism{ident $self} = $attr->get_value() if $attr->get_type()->get_name() eq 'multi-cellular organism';
     }
 }
 
