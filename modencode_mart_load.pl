@@ -19,6 +19,7 @@ use ModENCODE::Parser::LWChado;
 use GEO::LWReporter;
 use Loader::TransfacTranscriptionalFactorMain_Loader;
 use Loader::TransfacBindingSitesMain_Loader;
+use Loader::TransfacDevelopmentalStageDm_Loader;
 
 print "initializing...\n";
 my ($unique_id, $config, $no_insert, $no_create, $force);
@@ -50,8 +51,10 @@ $reporter->set_all();
 my $species = $reporter->get_organism();
 my $pname = $reporter->get_tgt_gene();
 my $devstage = $reporter->get_devstage();
+my $sex = $reporter->get_sex();
 print $pname;
 print $devstage;
+print $sex;
 my $gff = 'Snyder_PHA4_GFP_emb_combined_peaks.GFF3';
 
 
@@ -76,6 +79,15 @@ for my $col (qw[tf_id_key
                 ]) {
     print $tf->$col, "\n";
 }
+
+my $devl = new Loader::TransfacDevelopmentalStageDm_Loader({
+    config => \%ini,
+    tf_id_key => $tf->tf_id_key,
+    official_name => $devstage,
+    species => $species,
+    sex => $sex
+});
+$devl->load();
 
 
 
