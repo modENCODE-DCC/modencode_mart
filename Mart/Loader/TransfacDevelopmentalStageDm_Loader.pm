@@ -16,7 +16,7 @@ my %sex      :ATTR( :name<sex>       :default<undef>);
 
 sub BUILD {
     my ($self, $ident, $args) = @_;
-    for my $p (qw[config species tf_id_key]) {
+    for my $p (qw[config species tf_id_key sex official_name]) {
 	my $v = $args->{$p};
 	defined $v || croak 'need parameter $p';
 	my $f = "set_" . $p;
