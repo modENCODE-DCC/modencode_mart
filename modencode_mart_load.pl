@@ -22,7 +22,7 @@ use Loader::TransfacBindingSitesMain_Loader;
 use Loader::TransfacDevelopmentalStageDm_Loader;
 
 print "initializing...\n";
-my ($unique_id, $config, $no_insert, $no_create, $force);
+my ($unique_id, $config, $no_insert, $no_create, $force, $gff);
 $no_insert=1;
 $no_create=1;
 $force=0;
@@ -31,7 +31,8 @@ my $option = GetOptions ("unique_id=s"    => \$unique_id,
                          "config=s"       => \$config,
 			 "no_insert=i"      => \$no_insert,
 			 "no_create=i"      => \$no_create,
-			 "force_recreate=i" => \$force    ) or usage();
+			 "force_recreate=i" => \$force,
+			 "gff=s" => \$gff) or usage();
 usage() unless defined($unique_id);
 usage() unless -e $config;
 my %ini;
@@ -52,18 +53,18 @@ my $species = $reporter->get_organism();
 my $pname = $reporter->get_tgt_gene();
 my $devstage = $reporter->get_devstage();
 my $sex = $reporter->get_sex();
+my $antibody = $reporter->get_antibody();
 print $pname;
 print $devstage;
 print $sex;
-my $gff = 'Snyder_PHA4_GFP_emb_combined_peaks.GFF3';
-
-
+print $antibody;
+$pname = $antibody unless $pname;
 
 my $tfl = new Loader::TransfacTranscriptionalFactorMain_Loader({
     dcc_id => $unique_id,
     config => \%ini,
     species => $species,
-    pname => $pname
+    pname => $pname 
 });
 $tfl->info;
 my $tf = $tfl->load; #a tf table dbix::class 
@@ -89,24 +90,26 @@ my $devl = new Loader::TransfacDevelopmentalStageDm_Loader({
 });
 $devl->load();
 
+my $bsl = new Loader::TransfacBindingSitesMain_Loader({
+    config => \%ini,
+    species => $species,
+    tf_id_key => $tf->tf_id_key
+});
+$bsl->load($gff);
 
-
-##################### cool 
-#my $bsl = new Loader::TransfacBindingSitesMain_Loader({
-#    config => \%ini,
-#    species => $species,
-#    tf_id_key => $tf->tf_id_key
-#});
-#$bsl->load($gff);
-
-###cool till this, loaded tf, bs, bs_gene 3 table!!!
+###cool till this, loaded tf, devstage, bs, bs_gene 4 table!!!
+###shall try the mart interface.
 
 sub load_experiment {
     my ($ini, $id) = @_;
-    my $name = $ini->{pipeline}{dbname};
-    my $host = $ini->{pipeline}{host};
-    my $user = $ini->{pipeline}{username};
-    my $pass = $ini->{pipeline}{password};
+    #my $name = $ini->{pipeline}{dbname};
+    #my $host = $ini->{pipeline}{host};
+    #my $user = $ini->{pipeline}{username};
+    #my $pass = $ini->{pipeline}{password};
+    my $name = 'modencode_' . $id;
+    my $host = 'localhost';
+    my $user = 'zheng';
+    my $pass = 'weigaocn';
     my $reader = new ModENCODE::Parser::LWChado({
 	'dbname' => $name,
 	'host' => $host,
@@ -114,7 +117,7 @@ sub load_experiment {
 	'password' => $pass});
     #search path for this dataset, this is fixed by modencode chado db
     #my $schema = $ini->{pipeline}{pathprefix}. $unique_id . $ini->{pipeline}{pathsuffix} . ',' . $ini->{pipeline}{schema};
-    my $schema = $ini->{pipeline}->{schema};
+    my $schema = 'public';
     my $experiment_id = $reader->set_schema($schema);
     print "connected schema $schema.\n";
     print "loading experiment ...";
