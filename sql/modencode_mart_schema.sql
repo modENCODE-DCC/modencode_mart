@@ -4,10 +4,10 @@ CREATE TABLE transfac__transcriptional_factor__main (
        species		varchar(64) NOT NULL,
        gene_id		varchar(20) NOT NULL,
        public_name	varchar(20) NOT NULL,
-       tf_chromosome_name	    varchar(10) NOT NULL,
-       tf_chromosome_start	    int(20) unsigned NOT NULL,
-       tf_chromosome_end	    int(20) unsigned NOT NULL,
-       tf_chromosome_strand	    char(1) NOT NULL,
+       tf_chromosome_name	    varchar(10),
+       tf_chromosome_start	    int(20) unsigned,
+       tf_chromosome_end	    int(20) unsigned,
+       tf_chromosome_strand	    char(1),
        concise_description	    text DEFAULT NULL,
        PRIMARY KEY (tf_id_key)        
 );

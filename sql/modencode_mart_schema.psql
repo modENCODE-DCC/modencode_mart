@@ -1,6 +1,6 @@
 -- 
 -- Created by SQL::Translator::Producer::PostgreSQL
--- Created on Mon Feb 15 16:10:19 2010
+-- Created on Fri Feb 19 18:00:41 2010
 -- 
 --
 -- Table: transfac__antibody__dm
@@ -144,12 +144,12 @@ CREATE TABLE "transfac__transcriptional_factor__main" (
   "tf_id_key" serial NOT NULL,
   "dcc_id" integer NOT NULL,
   "species" character varying(64) NOT NULL,
-  "gene_id" character varying(20) NOT NULL,
+  "gene_id" character varying(20) DEFAULT NULL,
   "public_name" character varying(20) NOT NULL,
-  "tf_chromosome_name" character varying(10) NOT NULL,
-  "tf_chromosome_start" bigint NOT NULL,
-  "tf_chromosome_end" bigint NOT NULL,
-  "tf_chromosome_strand" character(1) NOT NULL,
+  "tf_chromosome_name" character varying(10) DEFAULT NULL,
+  "tf_chromosome_start" bigint DEFAULT NULL,
+  "tf_chromosome_end" bigint DEFAULT NULL,
+  "tf_chromosome_strand" character(1) DEFAULT NULL,
   "concise_description" text,
   PRIMARY KEY ("tf_id_key"),
   CONSTRAINT "dcc_id" UNIQUE ("dcc_id")
