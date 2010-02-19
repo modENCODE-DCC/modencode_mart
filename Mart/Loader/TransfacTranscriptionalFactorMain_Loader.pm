@@ -40,18 +40,23 @@ sub info {
     my $db = $self->get_db();
     my $name = $self->get_pname();
     my @f = $db->get_features_by_name($name);
-    unless (scalar(@f) == 1) {
+    if (scalar(@f) > 1) {
 	warn("more than one feature share the name $name");
+    } 
+    elsif (scalar(@f) == 0) {
+	warn("no feature named $name");
+    } 
+    else {
+	my $f = $f[0];
+	print Dumper($f);
+	my $load_id = $f->load_id;
+	$load_id =~ s/^Gene://g;
+	$self->set_id($load_id);
+	$self->set_chr_st($f->start);
+	$self->set_chr_end($f->end);
+	$self->set_chr_strand($f->strand);
+	$self->set_chr_name($f->seq_id);
     }
-    my $f = $f[0];
-    print Dumper($f);
-    my $load_id = $f->load_id;
-    $load_id =~ s/^Gene://g;
-    $self->set_id($load_id);
-    $self->set_chr_st($f->start);
-    $self->set_chr_end($f->end);
-    $self->set_chr_strand($f->strand);
-    $self->set_chr_name($f->seq_id);
 }
 
 sub load {
