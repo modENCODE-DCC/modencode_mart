@@ -27,8 +27,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("bs_gene_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-15 16:12:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5KextaMwQ9/NPYa71UjdXQ
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-19 18:01:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:v0VZ+aNV/HqIrrjxXXa0WA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

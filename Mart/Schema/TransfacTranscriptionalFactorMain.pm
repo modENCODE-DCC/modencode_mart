@@ -23,7 +23,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 20,
   },
   "public_name",
@@ -58,8 +58,8 @@ __PACKAGE__->set_primary_key("tf_id_key");
 __PACKAGE__->add_unique_constraint("dcc_id", ["dcc_id"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-19 17:53:46
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AS+a5OAdEmP3J/767T+dzw
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-19 18:01:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:61AkiWpxlmz5VWuKs19B5w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
