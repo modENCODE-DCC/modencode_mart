@@ -433,7 +433,13 @@ sub set_antibody {
             my $ab = $self->get_antibody_row($row);
 	    if ($ab) {
 		if (is_antibody($ab) != -1) {
-		    print "antibody", $ab->get_value and $antibody{ident $self} = $ab;
+		    print "antibody", $ab->get_value;
+		    for my $attr (@{$ab->get_attributes()}) {
+			if ($attr->get_heading eq 'target name') {
+			    $antibody{ident $self} = $attr->get_value;
+			    last;
+			}
+		    }
 		}
 	    }
         }
