@@ -49,7 +49,15 @@ SET character_set_client = utf8;
 CREATE TABLE `transfac__binding_sites__main` (
   `tf_id_key` int(5) unsigned NOT NULL,
   `bs_id_key` int(20) unsigned NOT NULL auto_increment,
-  `bs_id` int(10) unsigned NOT NULL,
+  `dcc_id` int(5) unsigned NOT NULL,
+  `species` varchar(64) NOT NULL,
+  `gene_id` varchar(20) default NULL,
+  `public_name` varchar(20) NOT NULL,
+  `tf_chromosome_name` varchar(10) default NULL,
+  `tf_chromosome_start` int(20) unsigned default NULL,
+  `tf_chromosome_end` int(20) unsigned default NULL,
+  `tf_chromosome_strand` char(1) default NULL,
+  `concise_description` text,
   `bs_chromosome_name` varchar(10) NOT NULL,
   `bs_chromosome_start` int(20) unsigned NOT NULL,
   `bs_chromosome_end` int(20) unsigned NOT NULL,
@@ -123,12 +131,12 @@ CREATE TABLE `transfac__developmental_stage__dm` (
 SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `transfac__experiment_dm`
+-- Table structure for table `transfac__experiment__dm`
 --
 
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-CREATE TABLE `transfac__experiment_dm` (
+CREATE TABLE `transfac__experiment__dm` (
   `tf_experiment_id` int(20) unsigned NOT NULL auto_increment,
   `dcc_id` int(5) unsigned NOT NULL,
   `tf_id_key` int(5) unsigned NOT NULL,
@@ -214,4 +222,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-02-19 23:00:37
+-- Dump completed on 2010-02-24 17:58:13

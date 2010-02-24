@@ -1,6 +1,6 @@
 -- 
 -- Created by SQL::Translator::Producer::PostgreSQL
--- Created on Fri Feb 19 18:00:41 2010
+-- Created on Wed Feb 24 12:58:18 2010
 -- 
 --
 -- Table: transfac__antibody__dm
@@ -29,7 +29,15 @@ CREATE INDEX "tf_id_key" on "transfac__antibody__dm" ("tf_id_key");
 CREATE TABLE "transfac__binding_sites__main" (
   "tf_id_key" integer NOT NULL,
   "bs_id_key" bigserial NOT NULL,
-  "bs_id" integer NOT NULL,
+  "dcc_id" integer NOT NULL,
+  "species" character varying(64) NOT NULL,
+  "gene_id" character varying(20) DEFAULT NULL,
+  "public_name" character varying(20) NOT NULL,
+  "tf_chromosome_name" character varying(10) DEFAULT NULL,
+  "tf_chromosome_start" bigint DEFAULT NULL,
+  "tf_chromosome_end" bigint DEFAULT NULL,
+  "tf_chromosome_strand" character(1) DEFAULT NULL,
+  "concise_description" text,
   "bs_chromosome_name" character varying(10) NOT NULL,
   "bs_chromosome_start" bigint NOT NULL,
   "bs_chromosome_end" bigint NOT NULL,
@@ -90,16 +98,16 @@ CREATE TABLE "transfac__developmental_stage__dm" (
 CREATE INDEX "tf_id_key" on "transfac__developmental_stage__dm" ("tf_id_key");
 
 --
--- Table: transfac__experiment_dm
+-- Table: transfac__experiment__dm
 --
-CREATE TABLE "transfac__experiment_dm" (
+CREATE TABLE "transfac__experiment__dm" (
   "tf_experiment_id" bigserial NOT NULL,
   "dcc_id" integer NOT NULL,
   "tf_id_key" integer NOT NULL,
   "title" character varying(255) DEFAULT NULL,
   PRIMARY KEY ("tf_experiment_id")
 );
-CREATE INDEX "tf_id_key" on "transfac__experiment_dm" ("tf_id_key");
+CREATE INDEX "tf_id_key" on "transfac__experiment__dm" ("tf_id_key");
 
 --
 -- Table: transfac__strain__dm

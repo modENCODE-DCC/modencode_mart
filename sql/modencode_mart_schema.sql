@@ -8,14 +8,19 @@ CREATE TABLE transfac__transcriptional_factor__main (
        tf_chromosome_start	    int(20) unsigned,
        tf_chromosome_end	    int(20) unsigned,
        tf_chromosome_strand	    char(1),
-       concise_description	    text DEFAULT NULL,
        PRIMARY KEY (tf_id_key)        
 );
 
 CREATE TABLE transfac__binding_sites__main (
        tf_id_key        int(5) unsigned NOT NULL,
        bs_id_key        int(20) unsigned NOT NULL AUTO_INCREMENT,
-       bs_id            int(10) unsigned NOT NULL,
+       species		varchar(64) NOT NULL,
+       gene_id		varchar(20) NOT NULL,
+       public_name	varchar(20) NOT NULL,
+       tf_chromosome_name	    varchar(10),
+       tf_chromosome_start	    int(20) unsigned,
+       tf_chromosome_end	    int(20) unsigned,
+       tf_chromosome_strand	    char(1),       
        bs_chromosome_name       varchar(10) NOT NULL,
        bs_chromosome_start      int(20) unsigned NOT NULL,
        bs_chromosome_end        int(20) unsigned NOT NULL,
@@ -114,7 +119,7 @@ CREATE TABLE transfac__tissue__dm (
        FOREIGN KEY (tf_id_key) REFERENCES transfac__transcriptional_factor__main (tf_id_key) ON DELETE CASCADE
 );
 
-CREATE TABLE transfac__experiment_dm (
+CREATE TABLE transfac__experiment__dm (
        tf_experiment_id  int(20) unsigned NOT NULL AUTO_INCREMENT,
        dcc_id        int(5) unsigned NOT NULL,
        tf_id_key     int(5) unsigned NOT NULL,
