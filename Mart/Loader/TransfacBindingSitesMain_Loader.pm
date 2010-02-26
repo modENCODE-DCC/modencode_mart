@@ -46,6 +46,7 @@ sub load {
                      bs_chromosome_start
                      bs_chromosome_end
                      bs_chromosome_strand
+                     bs_length
                      q_value
                      bs_sequence
                     ];
@@ -64,6 +65,15 @@ sub load {
 					    $rec->get_end(),
 					    $rec->get_strand()
 	    );
+	my $stat = $rec->get_score();
+	if ($stat eq '.') {
+	    my $qvalue = $rec->get_qvalue();
+	    if ( defined($qvalue) ) {
+		$stat = $qvalue;
+	    } else {
+		$stat = undef;
+	    }
+	}
 	#if $strand == 0;
 	#my $segment = $db->segment($chr, $start, $end);
 	#$segment->seq->seq, "\n";
@@ -80,7 +90,8 @@ sub load {
 		    $start,
 		    $end,
 		    $strand,
-		    $rec->get_score(),
+		    abs($start-$end+1)
+		    $stat,
 		    $db->segment($chr, $start, $end)->seq->seq
 	    );
 	print join(' ', @data), "\n";
@@ -93,7 +104,7 @@ sub load {
 								   species => $self->get_species(),
 								   bs_id_key => $bs->bs_id_key
 								  });
-	$bsgl->load($db, $rec);
+	$bsgl->load($db, $rec, 'gene');
     }
     close $gffh;
 }

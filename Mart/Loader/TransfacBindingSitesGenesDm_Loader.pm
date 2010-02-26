@@ -1,7 +1,7 @@
 package Loader::TransfacBindingSitesGenesDm_Loader;
 #this package shall provide a function that can be called 
 #when load TransfacBindingSites table to 
-#load the distance to binding sites nearby features into TransfacBindingSitesGenes table.
+#load the distance to binding sites nearby features into TransfacBindingSitesGenes/exon/intron tables.
 
 use strict;
 use warnings;
@@ -28,7 +28,7 @@ sub BUILD {
 
 sub load {
     #accept a bio-db-seqfeature handle, a gff3rec obj.
-    my ($self, $db, $rec) = @_;
+    my ($self, $db, $rec, $type) = @_;
 
     my $schema = Schema->connect($self->connectinfo('mart'));
     my $p = __PACKAGE__; $p =~ s/^Loader:://; $p =~ s/_Loader$//;
@@ -36,6 +36,7 @@ sub load {
 
     my @columns = qw[bs_id_key
                      gene_id
+                     gene_public_name
                      distance
                     ];
 
@@ -45,20 +46,21 @@ sub load {
 				  $rec->get_start(),
 				  $rec->get_end()
 	);
-    my $bs_pt = ($bs_st + $bs_end) / 2; #integer!
+    my $bs_pt = bs_pt($st, $end);
     my $rg_min = $bs_pt - $cutoff > 0 ? $bs_pt - $cutoff : 0;
     my $rg_max = $bs_pt + $cutoff;
     print "region: center $bs_pt, min $rg_min, max $rg_max\n";
     #more location, feature type control could go into here
-    my $it = $db->segment($chr, $rg_min, $rg_max)->get_seq_stream(-type => 'gene');
+    my $it = $db->segment($chr, $rg_min, $rg_max)->get_seq_stream(-type => $type);
     while (my $ft = $it->next_seq) {
 	print "Warning!!! a gene in gff3 db contains no id.\n", Dumper($ft) unless defined($ft->id);
 	print "Warning!!! a gene in gff3 db contains no load_id.\n", Dumper($ft) unless defined($ft->load_id);
-	if ( defined($ft->id) ) {
+	if ( defined($ft->id) ) { # landmark genes
 	    my $dst = abs(($ft->start + $ft->end) / 2 - $bs_pt);
 	    print join(" ", ('Gene', $ft->id, $ft->load_id, 'distance', $dst, "\n"));
 	    my @data = ($self->get_bs_id_key,
 			$ft->load_id,
+			$ft->display_name
 			$dst
 		);
 	    $bsg_rs->populate([\@columns,
@@ -66,6 +68,15 @@ sub load {
 			      ]);
 	}
     }	    
+}
+
+sub bs_pt {
+    my ($st, $end) = @_;
+    return ($st+$end)/2;
 } 
 
+sub bs_feature_dst {
+    my ($bs_pt, $f) = @_;
+    
+}
 1;
