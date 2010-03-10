@@ -68,6 +68,8 @@ __PACKAGE__->add_columns(
   { data_type => "INT", default_value => undef, is_nullable => 0, size => 20 },
   "bs_chromosome_strand",
   { data_type => "CHAR", default_value => undef, is_nullable => 0, size => 1 },
+  "bs_length",
+  { data_type => "INT", default_value => undef, is_nullable => 0, size => 10 },
   "q_value",
   { data_type => "FLOAT", default_value => undef, is_nullable => 0, size => 32 },
   "bs_sequence",
@@ -81,8 +83,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("bs_id_key");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-24 11:20:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bTfo5LBgFPqaucZ30+sBDw
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-03-10 17:05:53
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ixyOmWi31JfFEMPz2MEsMA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

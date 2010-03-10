@@ -78,8 +78,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("tf_antibody_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-24 11:20:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PB0GJjIBGmrEaXgPWMDtKQ
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-03-10 17:05:53
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Dfr4nq7GitW9a5pWiQNdMw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

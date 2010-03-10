@@ -86,8 +86,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("tf_cellline_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-24 11:20:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1Z7a/R6Evtma+HKS142HjA
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-03-10 17:05:53
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YxccX4AMyQRSTskgN39X0w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
