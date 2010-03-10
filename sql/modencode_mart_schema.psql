@@ -1,6 +1,6 @@
 -- 
 -- Created by SQL::Translator::Producer::PostgreSQL
--- Created on Wed Feb 24 12:58:18 2010
+-- Created on Wed Mar 10 17:04:09 2010
 -- 
 --
 -- Table: transfac__antibody__dm
@@ -42,11 +42,29 @@ CREATE TABLE "transfac__binding_sites__main" (
   "bs_chromosome_start" bigint NOT NULL,
   "bs_chromosome_end" bigint NOT NULL,
   "bs_chromosome_strand" character(1) NOT NULL,
+  "bs_length" integer NOT NULL,
   "q_value" numeric NOT NULL,
   "bs_sequence" bytea,
   PRIMARY KEY ("bs_id_key")
 );
 CREATE INDEX "tf_id_key" on "transfac__binding_sites__main" ("tf_id_key");
+CREATE INDEX "species" on "transfac__binding_sites__main" ("species", "bs_chromosome_name", "bs_chromosome_start", "bs_chromosome_end", "bs_chromosome_strand", "bs_length", "q_value");
+
+--
+-- Table: transfac__binding_sites_exons__dm
+--
+CREATE TABLE "transfac__binding_sites_exons__dm" (
+  "bs_gene_id" bigserial NOT NULL,
+  "bs_id_key" bigint NOT NULL,
+  "feature_id" character varying(20) NOT NULL,
+  "feature_public_name" character varying(20) DEFAULT NULL,
+  "relative_position" character varying(15) DEFAULT NULL,
+  "distance" bigint NOT NULL,
+  PRIMARY KEY ("bs_gene_id")
+);
+CREATE INDEX "bs_id_key" on "transfac__binding_sites_exons__dm" ("bs_id_key");
+CREATE INDEX "feature_id" on "transfac__binding_sites_exons__dm" ("feature_id", "feature_public_name", "relative_position", "distance");
+CREATE INDEX "feature_id_2" on "transfac__binding_sites_exons__dm" ("feature_id", "feature_public_name", "relative_position", "distance");
 
 --
 -- Table: transfac__binding_sites_genes__dm
@@ -54,12 +72,30 @@ CREATE INDEX "tf_id_key" on "transfac__binding_sites__main" ("tf_id_key");
 CREATE TABLE "transfac__binding_sites_genes__dm" (
   "bs_gene_id" bigserial NOT NULL,
   "bs_id_key" bigint NOT NULL,
-  "gene_id" character varying(20) NOT NULL,
-  "relative_position" smallint DEFAULT NULL,
+  "feature_id" character varying(20) NOT NULL,
+  "feature_public_name" character varying(20) DEFAULT NULL,
+  "relative_position" character varying(15) DEFAULT NULL,
   "distance" bigint NOT NULL,
   PRIMARY KEY ("bs_gene_id")
 );
 CREATE INDEX "bs_id_key" on "transfac__binding_sites_genes__dm" ("bs_id_key");
+CREATE INDEX "feature_id" on "transfac__binding_sites_genes__dm" ("feature_id", "feature_public_name", "relative_position", "distance");
+CREATE INDEX "feature_id_2" on "transfac__binding_sites_genes__dm" ("feature_id", "feature_public_name", "relative_position", "distance");
+
+--
+-- Table: transfac__binding_sites_introns__dm
+--
+CREATE TABLE "transfac__binding_sites_introns__dm" (
+  "bs_gene_id" bigserial NOT NULL,
+  "bs_id_key" bigint NOT NULL,
+  "feature_id" character varying(20) NOT NULL,
+  "feature_public_name" character varying(20) DEFAULT NULL,
+  "relative_position" character varying(15) DEFAULT NULL,
+  "distance" bigint NOT NULL,
+  PRIMARY KEY ("bs_gene_id")
+);
+CREATE INDEX "bs_id_key" on "transfac__binding_sites_introns__dm" ("bs_id_key");
+CREATE INDEX "feature_id" on "transfac__binding_sites_introns__dm" ("feature_id", "feature_public_name", "relative_position", "distance");
 
 --
 -- Table: transfac__cellline__dm
@@ -96,6 +132,7 @@ CREATE TABLE "transfac__developmental_stage__dm" (
   PRIMARY KEY ("tf_devstage_id")
 );
 CREATE INDEX "tf_id_key" on "transfac__developmental_stage__dm" ("tf_id_key");
+CREATE INDEX "official_name" on "transfac__developmental_stage__dm" ("official_name");
 
 --
 -- Table: transfac__experiment__dm
@@ -160,7 +197,9 @@ CREATE TABLE "transfac__transcriptional_factor__main" (
   "tf_chromosome_strand" character(1) DEFAULT NULL,
   "concise_description" text,
   PRIMARY KEY ("tf_id_key"),
-  CONSTRAINT "dcc_id" UNIQUE ("dcc_id")
+  CONSTRAINT "dcc_id" UNIQUE ("dcc_id"),
+  CONSTRAINT "dcc_id_2" UNIQUE ("dcc_id")
 );
 CREATE INDEX "public_name" on "transfac__transcriptional_factor__main" ("public_name");
+CREATE INDEX "gene_id" on "transfac__transcriptional_factor__main" ("gene_id", "public_name");
 

@@ -62,11 +62,33 @@ CREATE TABLE `transfac__binding_sites__main` (
   `bs_chromosome_start` int(20) unsigned NOT NULL,
   `bs_chromosome_end` int(20) unsigned NOT NULL,
   `bs_chromosome_strand` char(1) NOT NULL,
+  `bs_length` int(10) unsigned NOT NULL,
   `q_value` float NOT NULL,
   `bs_sequence` blob,
   PRIMARY KEY  (`bs_id_key`),
-  KEY `tf_id_key` (`tf_id_key`)
-) ENGINE=MyISAM AUTO_INCREMENT=13160 DEFAULT CHARSET=latin1;
+  KEY `tf_id_key` (`tf_id_key`),
+  KEY `species` (`species`,`bs_chromosome_name`,`bs_chromosome_start`,`bs_chromosome_end`,`bs_chromosome_strand`,`bs_length`,`q_value`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `transfac__binding_sites_exons__dm`
+--
+
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transfac__binding_sites_exons__dm` (
+  `bs_gene_id` int(20) unsigned NOT NULL auto_increment,
+  `bs_id_key` int(20) unsigned NOT NULL,
+  `feature_id` varchar(20) NOT NULL,
+  `feature_public_name` varchar(20) default NULL,
+  `relative_position` varchar(15) default NULL,
+  `distance` int(20) unsigned NOT NULL,
+  PRIMARY KEY  (`bs_gene_id`),
+  KEY `bs_id_key` (`bs_id_key`),
+  KEY `feature_id` (`feature_id`,`feature_public_name`,`relative_position`,`distance`),
+  KEY `feature_id_2` (`feature_id`,`feature_public_name`,`relative_position`,`distance`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -78,12 +100,34 @@ SET character_set_client = utf8;
 CREATE TABLE `transfac__binding_sites_genes__dm` (
   `bs_gene_id` int(20) unsigned NOT NULL auto_increment,
   `bs_id_key` int(20) unsigned NOT NULL,
-  `gene_id` varchar(20) NOT NULL,
-  `relative_position` int(1) default NULL,
+  `feature_id` varchar(20) NOT NULL,
+  `feature_public_name` varchar(20) default NULL,
+  `relative_position` varchar(15) default NULL,
   `distance` int(20) unsigned NOT NULL,
   PRIMARY KEY  (`bs_gene_id`),
-  KEY `bs_id_key` (`bs_id_key`)
-) ENGINE=MyISAM AUTO_INCREMENT=627298 DEFAULT CHARSET=latin1;
+  KEY `bs_id_key` (`bs_id_key`),
+  KEY `feature_id` (`feature_id`,`feature_public_name`,`relative_position`,`distance`),
+  KEY `feature_id_2` (`feature_id`,`feature_public_name`,`relative_position`,`distance`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `transfac__binding_sites_introns__dm`
+--
+
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transfac__binding_sites_introns__dm` (
+  `bs_gene_id` int(20) unsigned NOT NULL auto_increment,
+  `bs_id_key` int(20) unsigned NOT NULL,
+  `feature_id` varchar(20) NOT NULL,
+  `feature_public_name` varchar(20) default NULL,
+  `relative_position` varchar(15) default NULL,
+  `distance` int(20) unsigned NOT NULL,
+  PRIMARY KEY  (`bs_gene_id`),
+  KEY `bs_id_key` (`bs_id_key`),
+  KEY `feature_id` (`feature_id`,`feature_public_name`,`relative_position`,`distance`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -126,8 +170,9 @@ CREATE TABLE `transfac__developmental_stage__dm` (
   `ontology_name` blob,
   `wiki_perma_url` varchar(64) default NULL,
   PRIMARY KEY  (`tf_devstage_id`),
-  KEY `tf_id_key` (`tf_id_key`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  KEY `tf_id_key` (`tf_id_key`),
+  KEY `official_name` (`official_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -209,8 +254,10 @@ CREATE TABLE `transfac__transcriptional_factor__main` (
   `concise_description` text,
   PRIMARY KEY  (`tf_id_key`),
   UNIQUE KEY `dcc_id` (`dcc_id`),
-  KEY `public_name` (`public_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `dcc_id_2` (`dcc_id`),
+  KEY `public_name` (`public_name`),
+  KEY `gene_id` (`gene_id`,`public_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -222,4 +269,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-02-24 17:58:13
+-- Dump completed on 2010-03-10 22:01:33

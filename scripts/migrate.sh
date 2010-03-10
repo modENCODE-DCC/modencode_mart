@@ -1,1 +1,1 @@
-sqlt -f MySQL -t PostgreSQL modencode_mart_schema.mysql > ../sql/modencode_mart_schema.psql
+sqlt -f MySQL -t PostgreSQL ../sql/modencode_mart_schema.mysql > ../sql/modencode_mart_schema.psql
