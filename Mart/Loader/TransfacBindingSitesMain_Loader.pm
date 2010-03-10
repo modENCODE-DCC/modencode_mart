@@ -10,7 +10,7 @@ use Class::Std;
 use base 'Loader';
 use Schema;
 use GFF3::GFF3Rec;
-use Loader::TransfacBindingSitesGenesDm_Loader;
+use Loader::TransfacBindingSitesFeaturesDm_Loader;
 
 
 my %config    :ATTR(:name<config>     :default<undef>);
@@ -100,11 +100,11 @@ sub load {
 				    ]);
 	print "bs id: ", $bs->bs_id_key, "\n";
 	#load relationship
-	my $bsgl = new Loader::TransfacBindingSitesGenesDm_Loader({config => $self->get_config(),
-								   species => $self->get_species(),
-								   bs_id_key => $bs->bs_id_key
-								  });
-	$bsgl->load($db, $rec, 'gene');
+	my $bsgl = new Loader::TransfacBindingSitesFeaturesDm_Loader({config => $self->get_config(),
+								      species => $self->get_species(),
+								      bs_id_key => $bs->bs_id_key
+								     });
+	$bsgl->load($db, $rec, ('gene', 'exon', 'intron'));
     }
     close $gffh;
 }
