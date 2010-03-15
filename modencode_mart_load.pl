@@ -20,6 +20,7 @@ use GEO::LWReporter;
 use Loader::TransfacTranscriptionalFactorMain_Loader;
 use Loader::TransfacBindingSitesMain_Loader;
 use Loader::TransfacDevelopmentalStageDm_Loader;
+use Pipeline::Pipeline;
 
 print "initializing...\n";
 my ($unique_id, $config, $no_insert, $no_create, $force, $gff);
@@ -38,7 +39,9 @@ usage() unless -e $config;
 my %ini;
 tie %ini, 'Config::IniFiles', (-file => $config);
 
-my ($reader, $experiment) = load_experiment(\%ini, $unique_id);
+my $pipe = new Pipeline::Pipeline({
+    'config' => \%ini});
+my ($reader, $experiment) = $pipe->load_experiment($unique_id);
 print $experiment->to_string();
 
 ####ok##########
@@ -95,6 +98,8 @@ my $bsl = new Loader::TransfacBindingSitesMain_Loader({
     species => $species,
     tf_id_key => $tf->tf_id_key
 });
+
+$gff = $pipe->download_gff() unless $gff;
 $bsl->load($gff);
 
 ###cool till this, loaded tf, devstage, bs, bs_gene 4 table!!!
