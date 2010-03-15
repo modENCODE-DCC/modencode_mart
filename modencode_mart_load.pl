@@ -105,35 +105,6 @@ $bsl->load($gff);
 ###cool till this, loaded tf, devstage, bs, bs_gene 4 table!!!
 ###shall try the mart interface.
 
-sub load_experiment {
-    my ($ini, $id) = @_;
-    #my $name = $ini->{pipeline}{dbname};
-    #my $host = $ini->{pipeline}{host};
-    #my $user = $ini->{pipeline}{username};
-    #my $pass = $ini->{pipeline}{password};
-    my $name = 'modencode_' . $id;
-    my $host = 'localhost';
-    my $user = 'zheng';
-    my $pass = 'weigaocn';
-    my $reader = new ModENCODE::Parser::LWChado({
-	'dbname' => $name,
-	'host' => $host,
-	'username' => $user,
-	'password' => $pass});
-    #search path for this dataset, this is fixed by modencode chado db
-    #my $schema = $ini->{pipeline}{pathprefix}. $unique_id . $ini->{pipeline}{pathsuffix} . ',' . $ini->{pipeline}{schema};
-    my $schema = 'public';
-    my $experiment_id = $reader->set_schema($schema);
-    print "connected schema $schema.\n";
-    print "loading experiment ...";
-    $reader->load_experiment($experiment_id);
-    my $experiment = $reader->get_experiment();
-    print "done\n";
-    return ($reader, $experiment);
-};
-
-
-
 sub usage {
     my $usage = qq[$0 -unique_id <submission_id> -config <config_file> --no_insert <0|1> --no_create <0|1> --force_recreate <0|1>];
     print "Usage: $usage\n";
