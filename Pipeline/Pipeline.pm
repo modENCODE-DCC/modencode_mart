@@ -5,6 +5,7 @@ use Carp qw/croak/;
 use Data::Dumper;
 use Class::Std;
 use ModENCODE::Parser::LWChado;
+use LWP::UserAgent;
 
 my %config         :ATTR( :name<config>        :default<undef>);
 
@@ -43,6 +44,52 @@ sub load_experiment {
     return ($reader, $experiment);
 };    
 
-sub 
+###the following code are taken from Lincoln's AWG script for downloading gff
+###small changes are made
+sub download_gff {
+    my ($self, $id) = @_;
+    my $ini = $self->get_config();
+    my $url = $ini->{gff}->{url};
+    my $save = $ini->{gff}->{save};
+    $url .= '/' unless $url =~ /\/$/;
+    $save .= '/' unless $save =~ /\/$/;
+    my $agent = LWP::UserAgent->new();
+    _traverse($agent, $url, $save);
+}
+
+sub _traverse {
+    my ($agent, $url, $save) = @_;
+    warn "Traversing $url\n";
+
+    my $response = $agent->get($url);
+    unless ($response->is_success) {
+        warn "FAILED: ",$response->status_line;
+        return;
+    }
+    my $content   = $response->decoded_content;
+    $content      =~ s/&amp;/&/g;
+    my ($head,$base) = $url =~ m!^(http://[^/]+)(/[^?]+)!;
+    my @dirs         = $content =~ /"($base\?path=.+&root=extracted)"/g;
+    my @gff_files    = $content =~ m!href="(.+/get_file/.+\.gff.*?)"!ig;
+    _traverse($agent, "$head$_", $save) foreach @dirs;
+    _download($agent, "$head$_", $save) foreach @gff_files;
+}
+
+sub _download {
+    my ($agent, $url, $save) = @_;
+    warn "Downloading $url\n";
+    my ($id,$fname) = $url =~ /\/(\d+)\/.+?([^\/]+)$/;
+    my $dest = $save . $id . '.' . $fname;
+    unless (-e $dest) {
+	my $response = $agent->mirror($url, $dest);
+	unless ($response->is_success) {
+	    warn "FAILED: ",$response->status_line;
+	    return;
+	}
+	else {
+	    warn "$url => $dest\n";
+	}    
+    }
+}
 
 1;
