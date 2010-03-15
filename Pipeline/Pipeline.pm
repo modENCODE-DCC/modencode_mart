@@ -54,11 +54,11 @@ sub download_gff {
     $url .= '/' unless $url =~ /\/$/;
     $save .= '/' unless $save =~ /\/$/;
     my $agent = LWP::UserAgent->new();
-    _traverse($agent, $url, $save);
+    _traverse($agent, $url, $id, $save);
 }
 
 sub _traverse {
-    my ($agent, $url, $save) = @_;
+    my ($agent, $url, $id, $save) = @_;
     warn "Traversing $url\n";
 
     my $response = $agent->get($url);
@@ -71,12 +71,13 @@ sub _traverse {
     my ($head,$base) = $url =~ m!^(http://[^/]+)(/[^?]+)!;
     my @dirs         = $content =~ /"($base\?path=.+&root=extracted)"/g;
     my @gff_files    = $content =~ m!href="(.+/get_file/.+\.gff.*?)"!ig;
+    @dirs            = grep {!/ws\d+/} @dirs;  # do NOT pick up prelifted files
     _traverse($agent, "$head$_", $save) foreach @dirs;
     _download($agent, "$head$_", $save) foreach @gff_files;
 }
 
 sub _download {
-    my ($agent, $url, $save) = @_;
+    my ($agent, $url, $id, $save) = @_;
     warn "Downloading $url\n";
     my ($id,$fname) = $url =~ /\/(\d+)\/.+?([^\/]+)$/;
     my $dest = $save . $id . '.' . $fname;
