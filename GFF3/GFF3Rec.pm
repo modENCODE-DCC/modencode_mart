@@ -23,7 +23,7 @@ my %Note            :ATTR( :name<Note>             :default<undef> );
 my %Derives_from    :ATTR( :name<Derived_from>     :default<undef> );
 my %Target          :ATTR( :name<Target>           :default<undef> );
 my %Ontology_term   :ATTR( :name<Ontology_term>    :default<undef> );
-mu %qvalue          :ATTR( :name<qvalue>           :default<undef> );
+my %qvalue          :ATTR( :name<qvalue>           :default<undef> );
 
 sub BUILD {
     my ($self, $ident, $args) = @_;
