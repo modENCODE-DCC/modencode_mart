@@ -31,7 +31,7 @@ sub load {
     my ($self, $db, $rec, @types) = @_;
     for my $type (@types) {
 	$type = lc($type);
-	$uctype = ucfirst($type);
+	my $uctype = ucfirst($type);
 	my $schema = Schema->connect($self->connectinfo('mart'));
 	my $p = __PACKAGE__; $p =~ s/^Loader:://; $p =~ s/_Loader$//; $p =~ s/Features/$uctype/;
 	my $bsg_rs = $schema->resultset($p);    
@@ -51,8 +51,8 @@ sub load {
 				      $rec->get_start(),
 				      $rec->get_end()
 	    );
-	my $bs_pt = bs_pt($st, $end);
-	my $bs_len = abs($st-$end+1);
+	my $bs_pt = bs_pt($bs_st, $bs_end);
+	my $bs_len = abs($bs_st-$bs_end+1);
 	my $rg_min = $bs_pt - $cutoff > 0 ? $bs_pt - $cutoff : 0;
 	my $rg_max = $bs_pt + $cutoff;
 	print "region: center $bs_pt, min $rg_min, max $rg_max\n";
@@ -64,13 +64,13 @@ sub load {
 		$dst = bs_ft_tss_dst($bs_pt, $ft) if $type eq 'gene';
 		$dst = bs_ft_midpt_dst($bs_pt, $bs_len, $ft) if $type eq 'exon' || $type eq 'intron';
 		print join(" ", ('Gene', $ft->id, $ft->load_id, 'distance', $dst, "\n"));
-		my ($load_id, $display_name, $dst, $rp);
+		my ($load_id, $display_name, $rp);
 		$load_id = defined($ft->load_id) ? $ft->load_id : undef;
 		$display_name = defined($ft->display_name) ? $ft->display_name : undef;
 		($dst, $rp) = bs_ft_tss_dst($bs_pt, $ft);
 		my @data = ($self->get_bs_id_key,
 			    $load_id,
-			    $display_name
+			    $display_name,
 			    $dst,
 			    $rp
 		    );
