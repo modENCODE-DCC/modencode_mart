@@ -90,7 +90,7 @@ sub load {
 		    $start,
 		    $end,
 		    $strand,
-		    abs($start-$end+1)
+		    abs($start-$end+1),
 		    $stat,
 		    $db->segment($chr, $start, $end)->seq->seq
 	    );
