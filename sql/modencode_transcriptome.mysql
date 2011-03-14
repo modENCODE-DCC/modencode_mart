@@ -1,0 +1,129 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: modencode_transcriptome
+-- ------------------------------------------------------
+-- Server version	5.0.77
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `transcription__expression_level__dm`
+--
+
+DROP TABLE IF EXISTS `transcription__expression_level__dm`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transcription__expression_level__dm` (
+  `ts_id_key` int(20) unsigned NOT NULL,
+  `expression_level_id` int(20) unsigned NOT NULL auto_increment,
+  `expression_level` decimal(10,4) NOT NULL,
+  `devstage` varchar(64) default NULL,
+  `tissue` varchar(64) default NULL,
+  `sex` varchar(64) default NULL,
+  `condition` varchar(128) default NULL,
+  PRIMARY KEY  (`expression_level_id`),
+  KEY `ts_id_key` (`ts_id_key`),
+  KEY `devstage` (`devstage`),
+  KEY `tissue` (`tissue`),
+  KEY `sex` (`sex`),
+  KEY `condition` (`condition`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `transcription__feature_3UTR__dm`
+--
+
+DROP TABLE IF EXISTS `transcription__feature_3UTR__dm`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transcription__feature_3UTR__dm` (
+  `ts_id_key` int(20) NOT NULL,
+  `3utr_id` int(20) unsigned NOT NULL,
+  `3utr_name` varchar(64) NOT NULL,
+  `3utr_chromosome` varchar(10) NOT NULL,
+  `3utr_start` int(20) unsigned NOT NULL,
+  `3utr_end` int(20) unsigned NOT NULL,
+  `3utr_strand` char(1) NOT NULL,
+  PRIMARY KEY  (`3utr_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `transcription__feature__main`
+--
+
+DROP TABLE IF EXISTS `transcription__feature__main`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transcription__feature__main` (
+  `ts_id_key` int(20) NOT NULL,
+  `dcc_id` int(5) NOT NULL,
+  `species` varchar(64) NOT NULL,
+  `ts_chromosome_name` int(10) NOT NULL,
+  `ts_chromosome_start` int(20) NOT NULL,
+  `ts_chromosome_end` int(20) NOT NULL,
+  `ts_chromosome_strand` char(1) NOT NULL,
+  `ts_type` varchar(20) NOT NULL,
+  `assembly_version` varchar(10) NOT NULL,
+  PRIMARY KEY  (`ts_id_key`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `transcription__feature_gene__dm`
+--
+
+DROP TABLE IF EXISTS `transcription__feature_gene__dm`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transcription__feature_gene__dm` (
+  `ts_id_key` int(20) NOT NULL,
+  `gene_id` int(20) NOT NULL auto_increment,
+  `gene_name` varchar(64) NOT NULL,
+  `gene_chromosome` varchar(10) NOT NULL,
+  `gene_start` int(20) NOT NULL,
+  `gene_end` int(20) NOT NULL,
+  `gene_strand` char(1) NOT NULL,
+  PRIMARY KEY  (`gene_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `transcription__feature_ncRNA__dm`
+--
+
+DROP TABLE IF EXISTS `transcription__feature_ncRNA__dm`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transcription__feature_ncRNA__dm` (
+  `ts_id_key` int(20) unsigned NOT NULL,
+  `ncRNA_id` int(20) unsigned NOT NULL,
+  `ncRNA_name` varchar(64) default NULL,
+  `ncRNA_chromosome` varchar(10) NOT NULL,
+  `ncRNA_start` int(20) unsigned NOT NULL,
+  `ncRNA_end` int(20) unsigned NOT NULL,
+  `ncRNA_strand` char(1) NOT NULL,
+  PRIMARY KEY  (`ncRNA_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2011-03-11 21:53:44
