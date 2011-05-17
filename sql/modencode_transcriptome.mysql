@@ -24,7 +24,9 @@ SET character_set_client = utf8;
 CREATE TABLE `transcription__expression_level__dm` (
   `ts_id_key` int(20) unsigned NOT NULL,
   `expression_level_id` int(20) unsigned NOT NULL auto_increment,
+  `expression_length` int(10) unsigned NOT NULL,
   `expression_level` decimal(10,4) NOT NULL,
+  `prediction_status` varchar(20) default NULL,
   `devstage` varchar(64) default NULL,
   `tissue` varchar(64) default NULL,
   `sex` varchar(64) default NULL,
@@ -73,10 +75,6 @@ CREATE TABLE `transcription__feature__main` (
   `ts_type` varchar(20) NOT NULL,
   `assembly_version` varchar(10) NOT NULL,
   `ts_length` int(10) unsigned NOT NULL,
-  `prediction_status` tinyint(1) NOT NULL,
-  `devstage` varchar(50) default NULL,
-  `tissue` varchar(50) default NULL,
-  `sex` varchar(20) default NULL,
   PRIMARY KEY  (`ts_id_key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
@@ -126,4 +124,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-05-17 16:43:03
+-- Dump completed on 2011-05-17 20:51:49
