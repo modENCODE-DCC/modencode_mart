@@ -41,7 +41,7 @@ sub BUILD {
 }
 
 sub load {
-    my $self = shift;
+    my ($self, $gff) = @_;
     #use the 'mart' part in config
     my $schema = Schema->connect($self->connectinfo('mart'));
     my $annodbh = $self->get_db();
@@ -54,9 +54,55 @@ sub load {
                      ts_type
                      assembly_version
                      ts_length
-                     prediction_status
                     ];
+    
     my $p = __PACKAGE__; $p =~ s/^Loader:://; $p =~ s/_Loader$//;
+    my $ts_rs = $schema->resultset($p);
+    my $assembly_version;
+    my $dcc_id = $self->get_dcc_id();
+    my $species = $self->get_species();
+    my $devstage = $self->get_devstage();
+    my $tissue = $self->get_tissue();
+    my $sex = $self->get_sex();
+
+    open my $gffh, "<", $gff;    
+    while(my $line = <$gffh>) {
+	chomp $line;
+	next if $line =~ /^\s*$/;
+	if ($line =~ /^##genome-build/) {
+	    my @flds = split /\s+/, $line;
+	    $assembly_version = $flds[-1];
+	}
+	if ($line !~ /^#/) {
+	    my $rec = new GFF3::GFF3Rec({line => $line});
+	    my $st = $rec->get_start(),
+	    my $end = $rec->get_end(),
+	    my @data = ($dcc_id
+			$species,
+			$rec->get_seqid(),
+			$st,
+			$end,
+			$rec->get_strand(),
+			$rec->get_type(),
+			$assembly_version,
+			abs($st-$end+1),
+		);
+	    my ($ts) = $ts_rs->populate([\@columns,
+					 \@data
+					]);
+	    my $tsell = new Loader::TranscriptionExpressionLevelDm_Loader({config => $self->get_config(),
+									   species => $species,
+									   devstage => $devstage,
+									   tissue => $tissue,
+									   sex => $sex,
+									   ts_id_key => $ts->ts_id_key,
+									   prediction_status => $rec->get_prediction_status(),
+									   expression_length => $rec->get_dpcm_bases(),
+									   expression_level => $rec->get_dpcm(),
+									  });
+	    $tsell->load();
+	}
+    }
 }
 
 1;
