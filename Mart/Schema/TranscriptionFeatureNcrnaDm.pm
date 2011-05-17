@@ -36,8 +36,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("ncrna_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2011-03-14 11:21:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5x5PJu9VgIQVUyw11+2fqg
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2011-05-17 12:41:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jSt8cLdVUchcuYhFMTvBIw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
