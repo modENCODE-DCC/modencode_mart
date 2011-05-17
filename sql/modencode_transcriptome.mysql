@@ -19,7 +19,6 @@
 -- Table structure for table `transcription__expression_level__dm`
 --
 
-DROP TABLE IF EXISTS `transcription__expression_level__dm`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `transcription__expression_level__dm` (
@@ -43,7 +42,6 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `transcription__feature_3UTR__dm`
 --
 
-DROP TABLE IF EXISTS `transcription__feature_3UTR__dm`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `transcription__feature_3UTR__dm` (
@@ -62,12 +60,11 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `transcription__feature__main`
 --
 
-DROP TABLE IF EXISTS `transcription__feature__main`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `transcription__feature__main` (
-  `ts_id_key` int(20) NOT NULL,
-  `dcc_id` int(5) NOT NULL,
+  `ts_id_key` int(20) unsigned NOT NULL auto_increment,
+  `dcc_id` int(5) unsigned NOT NULL,
   `species` varchar(64) NOT NULL,
   `ts_chromosome_name` int(10) NOT NULL,
   `ts_chromosome_start` int(20) NOT NULL,
@@ -75,6 +72,11 @@ CREATE TABLE `transcription__feature__main` (
   `ts_chromosome_strand` char(1) NOT NULL,
   `ts_type` varchar(20) NOT NULL,
   `assembly_version` varchar(10) NOT NULL,
+  `ts_length` int(10) unsigned NOT NULL,
+  `prediction_status` tinyint(1) NOT NULL,
+  `devstage` varchar(50) default NULL,
+  `tissue` varchar(50) default NULL,
+  `sex` varchar(20) default NULL,
   PRIMARY KEY  (`ts_id_key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
@@ -83,7 +85,6 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `transcription__feature_gene__dm`
 --
 
-DROP TABLE IF EXISTS `transcription__feature_gene__dm`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `transcription__feature_gene__dm` (
@@ -102,7 +103,6 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `transcription__feature_ncRNA__dm`
 --
 
-DROP TABLE IF EXISTS `transcription__feature_ncRNA__dm`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `transcription__feature_ncRNA__dm` (
@@ -126,4 +126,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-03-11 21:53:44
+-- Dump completed on 2011-05-17 16:43:03
