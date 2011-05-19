@@ -88,12 +88,13 @@ SET character_set_client = utf8;
 CREATE TABLE `transcription__feature_gene__dm` (
   `ts_id_key` int(20) NOT NULL,
   `ts_gene_id` int(20) NOT NULL auto_increment,
-  `gene_id` varchar(20) NOT NULL,
-  `gene_name` varchar(64) NOT NULL,
-  `gene_chromosome` varchar(10) NOT NULL,
-  `gene_start` int(20) NOT NULL,
-  `gene_end` int(20) NOT NULL,
-  `gene_strand` char(1) NOT NULL,
+  `feature_id` varchar(20) NOT NULL,
+  `feature_name` varchar(64) NOT NULL,
+  `feature_type` varchar(20) NOT NULL,
+  `feature_chromosome` varchar(10) NOT NULL,
+  `feature_start` int(20) NOT NULL,
+  `feature_end` int(20) NOT NULL,
+  `feature_strand` char(1) NOT NULL,
   `relative_position` varchar(10) NOT NULL,
   `distance` int(20) unsigned NOT NULL,
   PRIMARY KEY  (`ts_gene_id`)
@@ -127,4 +128,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-05-18 17:18:19
+-- Dump completed on 2011-05-19 15:30:18
